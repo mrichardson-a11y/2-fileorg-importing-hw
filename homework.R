@@ -1,7 +1,9 @@
 #PSYC 259 Homework 1 - Data Import
 #For full credit, provide answers for at least 6/8 questions
 
-#List names of students collaborating with (no more than 2): 
+#List names of students collaborating with (no more than 2): Aylin and Maddy
+
+### AI transparency statement: Claude was used to decipher error messages.
 
 #GENERAL INFO 
 #data_A contains 12 files of data. 
@@ -18,7 +20,8 @@
 # Load the readr package
 
 # ANSWER
-
+library(readr)
+library(here)
 
 ### QUESTION 2 ----- 
 
@@ -31,11 +34,21 @@
 # Be sure to look at the format of the file to determine what read_* function to use
 # And what arguments might be needed
 
+
 # A list of column names are provided to use:
 
 col_names  <-  c("trial_num","speed_actual","speed_response","correct")
 
 # ANSWER
+getwd()
+
+here()
+
+here("data_A","6191_1.txt")
+
+file.exists(here("259-langbasics-importing-hw.Rproj"))
+
+ds1 <- read_delim('data_A/6191_1.txt', skip = 7, col_names = c("trial_num","speed_actual","speed_response","correct"))
 
 ### QUESTION 3a. ----- 
 
@@ -44,7 +57,8 @@ col_names  <-  c("trial_num","speed_actual","speed_response","correct")
 
 # ANSWER
 
-
+ds1$trial_num_new <- (ds1$trial_num + 100)
+print(ds1)
 ### QUESTION 3b. ----- 
 # Write the new data from question 3a to a CSV file in the "data_A_cleaned" folder
 # Make sure to include code to create a "data_A_cleaned" folder if it doesn't already exist
@@ -52,7 +66,9 @@ col_names  <-  c("trial_num","speed_actual","speed_response","correct")
 # Add one commend explaining your naming choice
 
 # ANSWER
-
+if (!dir.exists("data_A_cleaned")) dir.create("data_A_cleaned")
+ds_clean <- ds1
+write_csv(ds_clean, file = "data_A_cleaned/ds1.csv") # my naming convention is snake_case because it works well with R and it is what I normally use.
 
 ### QUESTION 4 ----- 
 
@@ -60,15 +76,14 @@ col_names  <-  c("trial_num","speed_actual","speed_response","correct")
 # Store it to a variable
 
 # ANSWER
-
+data_A_files <- list.files("data_A", full.names = TRUE)
 
 ### QUESTION 5 ----- 
 
 # Read all of the files in data_A into a single tibble called ds
 
 # ANSWER
-
-
+ds <- read_csv(data_A_files, col_names = c("trial_num","speed_actual","speed_response","correct"), skip = 7)
 ### QUESTION 6 -----
 
 # Try creating the "add 100" to the trial number variable again
@@ -80,7 +95,13 @@ col_names  <-  c("trial_num","speed_actual","speed_response","correct")
 # (It should work now, but you'll see a warning because of the erroneous data point)
 
 # ANSWER
+ds$trial_num_100 <- (ds$trial_num + 100)
+print("ds/6191_5.txt")
 
+ds <- read_csv(data_A_files, col_names = c("trial_num","speed_actual","speed_response","correct"), col_types = "iccl",  skip = 7)
+
+ds$trial_num_100 <- (ds$trial_num + 100)
+print(ds)
 
 ### QUESTION 7 -----
 
@@ -90,7 +111,9 @@ col_names  <-  c("trial_num","speed_actual","speed_response","correct")
 # Re-import the data so that filename becomes a column
 
 # ANSWER
-
+ds()
+ds <- read_csv(data_A_files, col_names = c("trial_num","speed_actual","speed_response","correct"), 
+               col_types = "iccl", id = "filename", skip = 7)
 
 ### QUESTION 8 -----
 
@@ -99,4 +122,15 @@ col_names  <-  c("trial_num","speed_actual","speed_response","correct")
 # There are two sheets of data -- import each one into a new tibble
 
 # ANSWER
+#install.packages("readxl")
+library(readxl)
 
+here()
+
+here("participant_info.xlsx", "data_B")
+
+file.exists(here("259-langbasics-importing-hw.Rproj"))
+
+participant_info <- read_xls("259-langbasics-importing-hw.Rproj","participant_info.xlsx") 
+
+## The file will not open for some reason, so I will stop here. 
