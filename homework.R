@@ -63,7 +63,7 @@ print(ds1)
 # Write the new data from question 3a to a CSV file in the "data_A_cleaned" folder
 # Make sure to include code to create a "data_A_cleaned" folder if it doesn't already exist
 # Choose a naming convention for this new dataset (ex. snake_case, no spaces, a date or version prefix/suffix)
-# Add one commend explaining your naming choice
+# Add one comment explaining your naming choice
 
 # ANSWER
 if (!dir.exists("data_A_cleaned")) dir.create("data_A_cleaned")
